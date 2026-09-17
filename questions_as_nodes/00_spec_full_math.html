@@ -1,0 +1,581 @@
+<title>DPCN Belief Network Spec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --bg:#F5F6F8; --surface:#FFFFFF; --ink:#171B23; --ink-2:#4B5363; --ink-3:#6E7686;
+  --rule:#DADFE7; --accent:#2B55B8; --callout:#ECF0F8; --warn:#8A5A00; --warn-bg:#FBF3E2;
+  --th-T:#3552C0; --th-E:#9C6210; --th-S:#A13A63; --th-V:#2C7A4B;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151B; --surface:#181C24; --ink:#E5E8EE; --ink-2:#A9B0BE; --ink-3:#848C9B;
+    --rule:#2B313C; --accent:#8AA9F2; --callout:#1B2231; --warn:#E6B45C; --warn-bg:#2A2416;
+    --th-T:#93A8F2; --th-E:#E1A955; --th-S:#E490B2; --th-V:#78C495;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151B; --surface:#181C24; --ink:#E5E8EE; --ink-2:#A9B0BE; --ink-3:#848C9B;
+  --rule:#2B313C; --accent:#8AA9F2; --callout:#1B2231; --warn:#E6B45C; --warn-bg:#2A2416;
+  --th-T:#93A8F2; --th-E:#E1A955; --th-S:#E490B2; --th-V:#78C495;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.62;padding:0 20px}
+.wrap{max-width:1120px;margin:0 auto;padding-block:48px 96px;display:grid;grid-template-columns:1fr;gap:40px}
+@media (min-width:1000px){.wrap{grid-template-columns:210px minmax(0,1fr)}}
+nav.toc{font-family:var(--sans);font-size:13.5px;line-height:1.45}
+@media (min-width:1000px){nav.toc{position:sticky;top:32px;align-self:start}}
+nav.toc .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+nav.toc a{color:var(--ink-2);text-decoration:none;display:flex;gap:8px}
+nav.toc a span{font-family:var(--mono);color:var(--ink-3);min-width:1.8em}
+nav.toc a:hover{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+main{max-width:72ch;min-width:0}
+header{border-bottom:1px solid var(--rule);padding-bottom:28px;margin-bottom:8px}
+.eyebrow{font-family:var(--sans);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+h1{font-family:var(--sans);font-weight:600;font-size:34px;line-height:1.15;letter-spacing:-.01em;margin:0 0 14px;text-wrap:balance}
+.lede{color:var(--ink-2);margin:0 0 20px}
+dl.meta{font-family:var(--sans);font-size:13.5px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 24px;margin:0}
+dl.meta div{display:grid;gap:2px}
+dl.meta dt{color:var(--ink-3);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+dl.meta dd{margin:0;font-variant-numeric:tabular-nums}
+section{padding-top:36px}
+h2{font-family:var(--sans);font-weight:600;font-size:23px;line-height:1.25;margin:0 0 14px;display:flex;gap:12px;align-items:baseline;text-wrap:balance}
+h2 .n{font-family:var(--mono);font-weight:400;font-size:15px;color:var(--accent)}
+h3{font-family:var(--sans);font-weight:600;font-size:17px;margin:28px 0 8px}
+p{margin:0 0 14px}
+ul,ol.steps{margin:0 0 14px;padding-left:1.3em}
+li{margin-bottom:6px}
+code,.id{font-family:var(--mono);font-size:.86em}
+.id{padding:0 .3em;border-radius:3px;background:var(--callout);white-space:nowrap}
+.t-T{color:var(--th-T)} .t-E{color:var(--th-E)} .t-S{color:var(--th-S)} .t-V{color:var(--th-V)}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;padding:2px 0;margin:14px 0 !important}
+.decision{background:var(--callout);border-radius:4px;padding:14px 18px;margin:18px 0;font-size:16px}
+.decision .tag,.note .tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.decision p:last-child,.note p:last-child{margin-bottom:0}
+.note{background:var(--warn-bg);border-radius:4px;padding:14px 18px;margin:18px 0;font-size:16px}
+.note .tag{color:var(--warn)}
+.tbl{overflow-x:auto;margin:16px 0 20px}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 12px 7px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-weight:500;color:var(--ink-3);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase}
+td.num{text-align:right;padding-right:0}
+th.num{text-align:right;padding-right:0}
+.legend{font-family:var(--sans);font-size:13.5px;display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0 16px;color:var(--ink-2)}
+.legend b{font-family:var(--mono);font-weight:500}
+.refs{font-size:15px;color:var(--ink-2)}
+.refs li{margin-bottom:8px}
+hr{border:0;border-top:1px solid var(--rule);margin:40px 0 0}
+</style>
+<script>
+window.MathJax={
+  tex:{inlineMath:[["$","$"]],displayMath:[["\\[","\\]"]],tags:"ams",
+       macros:{R:"\\mathbb{R}",E:"\\mathbb{E}",one:"\\mathbf{1}",given:"\\mid"}},
+  svg:{fontCache:"global"},
+  options:{skipHtmlTags:["script","noscript","style","textarea","code"]}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg-full.js"></script>
+
+<div class="wrap">
+<nav class="toc" aria-label="Contents">
+  <div class="lbl">Contents</div>
+  <ol>
+    <li><a href="#s1"><span>§1</span>Overview</a></li>
+    <li><a href="#s2"><span>§2</span>Data &amp; notation</a></li>
+    <li><a href="#s3"><span>§3</span>Correlations</a></li>
+    <li><a href="#s4"><span>§4</span>Network model</a></li>
+    <li><a href="#s5"><span>§5</span>Centrality</a></li>
+    <li><a href="#s6"><span>§6</span>Communities</a></li>
+    <li><a href="#s7"><span>§7</span>Robustness</a></li>
+    <li><a href="#s8"><span>§8</span>ResIN extension</a></li>
+    <li><a href="#s9"><span>§9</span>Figures &amp; report map</a></li>
+    <li><a href="#s10"><span>§10</span>Open decisions</a></li>
+    <li><a href="#refs"><span>—</span>References</a></li>
+  </ol>
+</nav>
+
+<main>
+<header>
+  <p class="eyebrow">DPCN · Assignment 1 · Methods draft for team review</p>
+  <h1>DPCN Belief Network Spec</h1>
+  <p class="lede">This spec covers how we turn the class survey into an item-level belief network: what we estimate, the exact formulas, and which choices are still open. Nothing here has been run yet, apart from the descriptive statistics in §2.</p>
+  <dl class="meta">
+    <div><dt>Data</dt><dd><code>Survey_Results_UC.csv</code></dd></div>
+    <div><dt>Respondents</dt><dd>$n = 91$ (of 96 rows)</dd></div>
+    <div><dt>Nodes</dt><dd>$p = 60$ items</dd></div>
+    <div><dt>Deadline</dt><dd>20 Sep 2026, 23:59</dd></div>
+  </dl>
+</header>
+
+<!-- §1 -->
+<section id="s1">
+<h2><span class="n">§1</span>Overview</h2>
+<p>The nodes are the 60 survey statements, not the students.</p>
+<p>An edge between two statements is a <em>partial correlation</em>. It measures how strongly two statements are associated once the other 58 are held fixed.</p>
+<p>We estimate these edges with a regularized Gaussian graphical model. That is the standard "network psychometrics" approach (Epskamp et al., 2018), applied here to a belief system as in Boutyline &amp; Vaisey (2017).</p>
+<p>The network lets us answer three questions:</p>
+<ul>
+  <li><strong>Hubs.</strong> Which beliefs are most central to the class's opinion system?</li>
+  <li><strong>Structure.</strong> Do the four survey themes come back as four communities, or do opinions organise some other way?</li>
+  <li><strong>Consensus.</strong> Which beliefs are held so uniformly that they barely connect to anything?</li>
+</ul>
+<p>The pipeline runs in order: clean (§2) → correlate (§3) → estimate the sparse network (§4) → compute centrality (§5) and communities (§6) → test stability (§7).</p>
+</section>
+
+<!-- §2 -->
+<section id="s2">
+<h2><span class="n">§2</span>Data and notation</h2>
+
+<h3>Encoding</h3>
+<p>Each response goes through the map</p>
+\[
+\varphi:\ \text{SD}\mapsto 1,\ \text{D}\mapsto 2,\ \text{N}\mapsto 3,\ \text{A}\mapsto 4,\ \text{SA}\mapsto 5,\qquad \text{“No Comments”},\ \text{blank}\ \mapsto\ \texttt{NA}.
+\]
+<p>"No Comments" means the person declined to answer. It is not a neutral opinion, so it becomes missing.</p>
+<p>Rows with no observed answers are dropped. That leaves the data matrix</p>
+\[
+X \in \{1,2,3,4,5,\texttt{NA}\}^{n\times p},\qquad n = 91,\ p = 60 .
+\]
+<p>Let $x_{ij}$ be respondent $i$'s answer to item $j$. Let $M_{ij} = \one[x_{ij}\ \text{observed}]$ be the observation indicator.</p>
+
+<h3>Themes</h3>
+<p>Every item belongs to exactly one survey theme:</p>
+\[
+\tau : \{1,\dots,p\} \to \{\mathsf{T},\mathsf{E},\mathsf{S},\mathsf{V}\},\qquad |\tau^{-1}(a)| = 15\ \ \forall a .
+\]
+<div class="legend">
+  <span class="t-T"><b>T</b> Technology</span>
+  <span class="t-E"><b>E</b> Education</span>
+  <span class="t-S"><b>S</b> Society / ethics</span>
+  <span class="t-V"><b>V</b> Environment</span>
+</div>
+<p>$\tau$ is only used for evaluation, never during estimation. That is what makes the community-vs-theme comparison in §6 a real test.</p>
+
+<h3>Pairwise sample sizes</h3>
+<p>For each pair of items, define the set of respondents who answered both:</p>
+\[
+P_{jk} = \{\, i : M_{ij}M_{ik} = 1 \,\},\qquad n_{jk} = |P_{jk}| .
+\]
+
+<h3>What the data looks like</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Quantity</th><th class="num">Value</th></tr></thead>
+  <tbody>
+    <tr><td>Rows in file / empty rows dropped</td><td class="num">96 / 5</td></tr>
+    <tr><td>Complete cases (all 60 answered)</td><td class="num">68</td></tr>
+    <tr><td>$n_{jk}$: min / median / max</td><td class="num">81 / 85 / 91</td></tr>
+    <tr><td>“No Comments” cells</td><td class="num">37</td></tr>
+    <tr><td>Missing cells by theme: <span class="t-T">T</span> / <span class="t-E">E</span> / <span class="t-S">S</span> / <span class="t-V">V</span></td><td class="num">11 / 68 / 73 / 90</td></tr>
+    <tr><td>Share of answers: SA / A / N / D / SD</td><td class="num">42.8 / 36.4 / 13.1 / 4.9 / 2.1 %</td></tr>
+    <tr><td>Items with ≥ 85% Agree or Strongly Agree</td><td class="num">19</td></tr>
+    <tr><td>Items with zero Strongly Disagree answers</td><td class="num">27</td></tr>
+    <tr><td>Items with ≤ 3 answers in SD ∪ D</td><td class="num">34</td></tr>
+    <tr><td>Lowest means: <span class="id t-E">E03</span> attendance, <span class="id t-E">E02</span> exams, <span class="id t-T">T08</span> AI diagnosis</td><td class="num">2.06 / 2.84 / 3.08</td></tr>
+    <tr><td>Highest means: <span class="id t-E">E15</span>, <span class="id t-V">V13</span>, <span class="id t-S">S05</span></td><td class="num">4.71 / 4.67 / 4.63</td></tr>
+    <tr><td>Item SD range: <span class="id t-E">E15</span> … <span class="id t-E">E04</span></td><td class="num">0.50 … 1.17</td></tr>
+  </tbody>
+</table></div>
+
+<p>Two properties of this table drive most of the choices below.</p>
+<p><strong>Missingness grows with position in the survey.</strong> The V section has about eight times more missing cells than T. This is consistent with people abandoning the form partway. Listwise deletion would throw away 23 of 91 respondents, so we use pairwise-complete estimation.</p>
+<p><strong>Responses pile up at the top of the scale.</strong> About 79% of answers are A or SA. Many items have almost no variance. An item with little variance cannot correlate strongly with anything, so it will tend to end up as an isolated node.</p>
+
+<h3>Per-item descriptors</h3>
+<p>We report these alongside the network. They describe consensus, which the network can't show.</p>
+\[
+\mu_j = \frac{\sum_i M_{ij}x_{ij}}{\sum_i M_{ij}},\qquad
+\sigma_j^2 = \frac{\sum_i M_{ij}(x_{ij}-\mu_j)^2}{\sum_i M_{ij}-1},\qquad
+a_j = \frac{\sum_i M_{ij}\one[x_{ij}\ge 4]}{\sum_i M_{ij}} .
+\]
+<p>$a_j$ is the agreement rate. Items with high $a_j$ and low $\sigma_j$ make up the "consensus set".</p>
+</section>
+
+<!-- §3 -->
+<section id="s3">
+<h2><span class="n">§3</span>Correlation estimation</h2>
+<p>The network in §4 needs a $p\times p$ correlation matrix $R$ as input. The data is ordinal, so Pearson correlation on the raw codes is not the right choice. There are two candidates.</p>
+
+<h3>3.1 Spearman with the Gaussian-copula transform</h3>
+<p>For each pair, rank both items within $P_{jk}$, using mid-ranks for ties. Let $\operatorname{rk}$ denote those ranks. Then take the Pearson correlation of the ranks:</p>
+\begin{equation}
+r^{S}_{jk} = \operatorname{corr}_{i\in P_{jk}}\!\big(\operatorname{rk}(x_{ij}),\ \operatorname{rk}(x_{ik})\big).
+\end{equation}
+<p>Spearman's $\rho$ is not a Gaussian correlation. Suppose the data comes from a Gaussian copula, meaning monotone transforms of a multivariate normal. Then the latent Pearson correlation is recovered by (Liu et al., 2012):</p>
+\begin{equation}\label{eq:skeptic}
+\hat\rho_{jk} = 2\sin\!\Big(\frac{\pi}{6}\, r^{S}_{jk}\Big).
+\end{equation}
+<p>The transform is small in practice. For example, $r^S = 0.30$ maps to $\hat\rho \approx 0.313$.</p>
+<p>One caveat: \eqref{eq:skeptic} assumes continuous margins. With five categories there are many ties, so the transform is approximate.</p>
+
+<h3>3.2 Polychoric correlation</h3>
+<p>The polychoric model assumes each item is a latent standard normal $Z_j$ cut at thresholds:</p>
+\begin{equation}
+x_{ij} = c \iff t_{j,c-1} \lt Z_{ij} \le t_{j,c},\qquad t_{j,0} = -\infty,\ t_{j,C} = +\infty .
+\end{equation}
+<p>The thresholds come from the item's marginal distribution:</p>
+\[
+\hat t_{j,c} = \Phi^{-1}\!\Big(\tfrac{1}{n_j}\textstyle\sum_i M_{ij}\,\one[x_{ij}\le c]\Big).
+\]
+<p>With the thresholds fixed, $\rho_{jk}$ maximizes the likelihood of the $C\times C$ contingency table of counts $n_{ab}$:</p>
+\begin{equation}
+\hat\rho_{jk} = \arg\max_{\rho\in(-1,1)} \sum_{a,b} n_{ab}\,\log \pi_{ab}(\rho),
+\end{equation}
+\[
+\pi_{ab}(\rho) = \Phi_2(t_{j,a},t_{k,b};\rho) - \Phi_2(t_{j,a-1},t_{k,b};\rho) - \Phi_2(t_{j,a},t_{k,b-1};\rho) + \Phi_2(t_{j,a-1},t_{k,b-1};\rho),
+\]
+<p>where $\Phi_2(\cdot,\cdot;\rho)$ is the standard bivariate normal CDF with correlation $\rho$.</p>
+
+<div class="note">
+<span class="tag">Problem · sparse tables</span>
+<p>Polychoric estimates are unreliable when contingency tables have many empty cells. The estimate can run to the boundary $\hat\rho\to\pm 1$.</p>
+<p>Across all 1,770 item pairs, the average share of empty cells in the $5\times5$ table is <strong>47.1%</strong>. A category with zero responses also makes two thresholds equal, so that category has to be removed.</p>
+</div>
+
+<p>The usual fix is to merge the rare low categories:</p>
+\[
+\kappa:\ \{1,2\}\mapsto 1,\quad 3\mapsto 2,\quad 4\mapsto 3,\quad 5\mapsto 4 .
+\]
+<p>After merging, the average share of empty cells in the $4\times4$ table drops to <strong>25.1%</strong>. That is better, but still high. We would also add a 0.5 continuity correction to empty cells.</p>
+
+<h3>3.3 Positive-definiteness</h3>
+<p>A pairwise-complete matrix is not guaranteed to be positive semi-definite. Each entry is computed on a different subset of respondents.</p>
+<p>For our Spearman matrix the smallest eigenvalue is $\lambda_{\min} = 1.3\times10^{-3}$. It is positive, but the matrix is close to singular. The polychoric matrix may well fail the check.</p>
+<p>If it fails, we project to the nearest correlation matrix (Higham, 2002):</p>
+\begin{equation}
+\tilde R = \arg\min_{A}\ \|A - R\|_F \quad \text{s.t.}\quad A \succeq \varepsilon I,\ \ \operatorname{diag}(A) = \mathbf 1 .
+\end{equation}
+<p>A cheaper version: eigen-decompose $R = Q\Lambda Q^\top$, clip $\Lambda^+ = \max(\Lambda,\varepsilon)$, rebuild, and rescale to a unit diagonal:</p>
+\[
+\tilde R = D^{-1/2}\,Q\Lambda^+Q^\top D^{-1/2},\qquad D = \operatorname{diag}(Q\Lambda^+Q^\top).
+\]
+
+<div class="decision">
+<span class="tag">Decision D1 · correlation estimator</span>
+<p>Recommendation: use Spearman + \eqref{eq:skeptic} as the primary estimator. Run polychoric on $\kappa$-merged data as a sensitivity check (§7.4).</p>
+<p>Reason: polychoric is the textbook choice for Likert data, but our tables are too sparse for it to be stable.</p>
+</div>
+</section>
+
+<!-- §4 -->
+<section id="s4">
+<h2><span class="n">§4</span>Network model: Gaussian graphical model</h2>
+
+<h3>4.1 Model</h3>
+<p>Assume the latent item vector satisfies $\mathbf z \sim \mathcal N(\mathbf 0,\Sigma)$ with $\operatorname{diag}(\Sigma)=\mathbf 1$. Let $\Theta = \Sigma^{-1}$ be the precision matrix.</p>
+<p>The partial correlation between items $j$ and $k$ is</p>
+\begin{equation}\label{eq:pcor}
+\omega_{jk} = -\frac{\theta_{jk}}{\sqrt{\theta_{jj}\,\theta_{kk}}} = \operatorname{corr}\big(z_j, z_k \given \mathbf z_{-\{j,k\}}\big).
+\end{equation}
+<p>A zero in $\Theta$ has a precise meaning:</p>
+\[
+\theta_{jk} = 0 \iff z_j \perp\!\!\!\perp z_k \given \mathbf z_{-\{j,k\}} .
+\]
+<p>So a missing edge means conditional independence, not just weak correlation.</p>
+
+<h3>4.2 Why regularize</h3>
+<p>The model has $\binom{60}{2} = 1{,}770$ partial correlations to estimate from 91 respondents.</p>
+<p>Inverting $R$ directly would give a dense, noisy $\Theta$. The near-zero $\lambda_{\min}$ from §3.3 would also blow up the inverse.</p>
+<p>So we impose sparsity with an $\ell_1$ penalty.</p>
+
+<h3>4.3 Graphical lasso</h3>
+<p>For a penalty $\lambda \ge 0$ (Friedman, Hastie &amp; Tibshirani, 2008):</p>
+\begin{equation}\label{eq:glasso}
+\hat\Theta_\lambda = \arg\max_{\Theta \succ 0}\ \Big\{ \log\det\Theta - \operatorname{tr}(\tilde R\,\Theta) - \lambda \sum_{j\neq k} |\theta_{jk}| \Big\}.
+\end{equation}
+<p>Only off-diagonal entries are penalized.</p>
+<p><em>Implementation check:</em> confirm whether the library also penalizes the diagonal. If it does, the result won't match \eqref{eq:glasso} exactly.</p>
+
+<h3>4.4 Choosing $\lambda$ with EBIC</h3>
+<p>Build a grid of $K = 100$ values, log-spaced from $\lambda_{\max} = \max_{j\neq k}|\tilde r_{jk}|$ down to $0.01\,\lambda_{\max}$.</p>
+<p>For each $\lambda$, compute the Gaussian log-likelihood and the edge count:</p>
+\[
+\ell(\hat\Theta_\lambda) = \frac{n}{2}\Big[\log\det\hat\Theta_\lambda - \operatorname{tr}(\tilde R\,\hat\Theta_\lambda)\Big],\qquad
+|E_\lambda| = \#\{\, j\lt k : \hat\theta_{jk} \neq 0 \,\}.
+\]
+<p>Then minimize the extended BIC (Foygel &amp; Drton, 2010):</p>
+\begin{equation}\label{eq:ebic}
+\mathrm{EBIC}_\gamma(\lambda) = -2\,\ell(\hat\Theta_\lambda) + |E_\lambda|\log n + 4\gamma\,|E_\lambda|\log p,\qquad \hat\lambda = \arg\min_\lambda \mathrm{EBIC}_\gamma(\lambda).
+\end{equation}
+<p>$\gamma\in[0,1]$ controls how strongly extra edges are penalized. $\gamma = 0$ is ordinary BIC. $\gamma = 0.5$ is the psychometrics default and gives sparser graphs.</p>
+<p>Pairwise estimation means there is no single $n$. We plug in the median, $n = 85$. Using $n = 81$ is the conservative alternative.</p>
+
+<h3>4.5 The resulting graph</h3>
+\[
+G = (V, E, W),\qquad V = \{1,\dots,60\},\quad E = \{\{j,k\} : \hat\omega_{jk}\neq 0\},\quad W_{jk} = \hat\omega_{jk}.
+\]
+<p>$G$ is undirected, weighted and signed. Its density is</p>
+\[
+\delta = |E| \big/ \tbinom{p}{2} .
+\]
+
+<h3>4.6 Baseline: marginal correlation network</h3>
+<p>For comparison, we also build the network Boutyline &amp; Vaisey would draw: an edge wherever the plain correlation is significant.</p>
+<p>Test each pair with</p>
+\[
+t_{jk} = \tilde r_{jk}\sqrt{\frac{n_{jk}-2}{1-\tilde r_{jk}^2}} \ \sim\ t_{\,n_{jk}-2}\ \ \text{under } H_0:\rho_{jk}=0 .
+\]
+<p>Control the false discovery rate with Benjamini–Hochberg at $q = 0.05$. Sort the $m = 1{,}770$ p-values $p_{(1)}\le\dots\le p_{(m)}$. Keep the edges with rank at most</p>
+\[
+i^\ast = \max\{\, i : p_{(i)} \le iq/m \,\}.
+\]
+<p>Compare the two edge sets with</p>
+\[
+J = \frac{|E_{\text{GGM}} \cap E_{\text{marg}}|}{|E_{\text{GGM}} \cup E_{\text{marg}}|},\qquad
+\text{explained-away share} = 1 - \frac{|E_{\text{GGM}} \cap E_{\text{marg}}|}{|E_{\text{marg}}|}.
+\]
+<p>The second number is the fraction of significant correlations that disappear after conditioning. Those are associations that run through other items rather than directly.</p>
+</section>
+
+<!-- §5 -->
+<section id="s5">
+<h2><span class="n">§5</span>Centrality</h2>
+<p>Every measure is computed on $W = \hat\Omega$. Rankings are reported as z-scores across the 60 nodes.</p>
+
+<h3>5.1 Strength and expected influence</h3>
+\begin{equation}
+s_j = \sum_{k\neq j} |\hat\omega_{jk}|, \qquad \mathrm{EI}_j = \sum_{k\neq j} \hat\omega_{jk}.
+\end{equation}
+<p>Strength ignores sign. Expected influence keeps it.</p>
+<p>The two differ only at nodes with negative edges. Our likely candidates are <span class="id t-E">E02</span> (exams measure knowledge) and <span class="id t-E">E03</span> (compulsory attendance), since those are the items the class disagrees with. About 16.7% of the marginal Spearman correlations are negative.</p>
+
+<h3>5.2 Bridge strength</h3>
+<p>This measures how much a node connects to items outside its own theme (Jones, Ma &amp; McNally, 2021):</p>
+\begin{equation}
+b_j = \sum_{k:\ \tau(k)\neq\tau(j)} |\hat\omega_{jk}|.
+\end{equation}
+<p>A high $b_j$ marks an item that ties the themes together. For example, <span class="id t-T">T12</span> (AI regulation) might link Technology and Society.</p>
+
+<h3>5.3 Predictability</h3>
+<p>This is the share of item $j$'s variance explained by its neighbours $N(j) = \{k : \hat\omega_{jk}\neq 0\}$ (Haslbeck &amp; Waldorp, 2018):</p>
+\begin{equation}
+R^2_j = \tilde r_{j,N(j)}^{\top}\ \tilde R_{N(j),N(j)}^{-1}\ \tilde r_{N(j),j}.
+\end{equation}
+<p>It is drawn as a ring around each node. A low $R^2_j$ means the item is driven by something outside the network. That is expected for the consensus items.</p>
+
+<h3>5.4 Closeness and betweenness (with a caveat)</h3>
+<p>Define edge length $\ell_{jk} = 1/|\hat\omega_{jk}|$. Let $d(j,k)$ be the shortest-path distance.</p>
+<p>We use harmonic closeness because isolated nodes are likely:</p>
+\[
+H_j = \frac{1}{p-1}\sum_{k\neq j}\frac{1}{d(j,k)}, \qquad
+B_j = \sum_{s\neq j\neq t}\frac{\sigma_{st}(j)}{\sigma_{st}} .
+\]
+<p>Here $\sigma_{st}$ counts shortest paths from $s$ to $t$, and $\sigma_{st}(j)$ counts those that pass through $j$. By convention $1/d = 0$ for disconnected pairs.</p>
+
+<div class="note">
+<span class="tag">Caveat</span>
+<p>Bringmann et al. (2019) argue that closeness and betweenness have no clear meaning in partial-correlation networks, and that they are usually unstable.</p>
+<p>We report them only if their CS-coefficient (§7.3) passes. Strength, EI and bridge strength are the main results.</p>
+</div>
+</section>
+
+<!-- §6 -->
+<section id="s6">
+<h2><span class="n">§6</span>Communities and the theme test</h2>
+
+<h3>6.1 Graph used for clustering</h3>
+<p>Modularity-based methods need non-negative weights. We cluster on the positive part only:</p>
+\[
+A^+_{jk} = \max(\hat\omega_{jk}, 0),\qquad k_j = \sum_k A^+_{jk},\qquad 2m = \sum_j k_j .
+\]
+<p>Negative edges are kept for the plots and for EI. They are dropped only for clustering.</p>
+
+<h3>6.2 Modularity and Louvain</h3>
+\begin{equation}\label{eq:Q}
+Q(c) = \frac{1}{2m}\sum_{j,k}\Big[A^+_{jk} - \gamma_r\frac{k_j k_k}{2m}\Big]\,\one[c_j = c_k].
+\end{equation}
+<p>Louvain (Blondel et al., 2008) greedily maximizes $Q$. The resolution is $\gamma_r = 1$.</p>
+<p>Louvain is randomized, so we run it with 100 seeds. We keep the partition with the highest $Q$. We also report how often each pair of items ends up together:</p>
+\[
+C_{jk} = \frac{1}{100}\sum_{s=1}^{100}\one\big[c^{(s)}_j = c^{(s)}_k\big].
+\]
+
+<h3>6.3 Walktrap</h3>
+<p>Walktrap is the convention in Exploratory Graph Analysis (Golino &amp; Epskamp, 2017), which uses GGM + walktrap for this exact kind of item network.</p>
+<p>Take the random-walk transition matrix $P = D^{-1}A^+$ with $D = \operatorname{diag}(k)$ and $t = 4$ steps. The distance between two nodes is</p>
+\[
+\rho_{jk} = \Big\| D^{-1/2}\big(P^t_{j\cdot} - P^t_{k\cdot}\big) \Big\|_2 .
+\]
+<p>Nodes are merged agglomeratively using a Ward-type criterion on $\rho$. The dendrogram is cut where $Q$ is maximal.</p>
+
+<div class="decision">
+<span class="tag">Decision D4 · algorithm</span>
+<p>Use walktrap as the primary method, because it matches EGA and the papers we cite. Report Louvain agreement as a robustness check.</p>
+</div>
+
+<h3>6.4 Do communities recover the themes?</h3>
+<p>Let $U$ be the found partition and $\mathcal T$ the theme partition. Let $n_{uv}$ be the number of items in community $u$ and theme $v$. Let $a_u = \sum_v n_{uv}$ and $b_v = \sum_u n_{uv}$.</p>
+<p>Normalized mutual information (0 = unrelated, 1 = identical):</p>
+\begin{equation}
+\mathrm{NMI}(U,\mathcal T) = \frac{2\,I(U;\mathcal T)}{H(U)+H(\mathcal T)},\qquad
+I = \sum_{u,v}\frac{n_{uv}}{p}\log\frac{p\,n_{uv}}{a_u b_v}.
+\end{equation}
+<p>Adjusted Rand index (0 = chance level, 1 = identical; Hubert &amp; Arabie, 1985):</p>
+\begin{equation}
+\mathrm{ARI} = \frac{\sum_{uv}\binom{n_{uv}}{2} - \big[\sum_u\binom{a_u}{2}\sum_v\binom{b_v}{2}\big]\big/\binom{p}{2}}
+{\tfrac12\big[\sum_u\binom{a_u}{2}+\sum_v\binom{b_v}{2}\big] - \big[\sum_u\binom{a_u}{2}\sum_v\binom{b_v}{2}\big]\big/\binom{p}{2}}.
+\end{equation}
+
+<h3>6.5 Permutation test on the theme partition</h3>
+<p>NMI and ARI tell us how similar the partitions are. They don't tell us whether the themes are a <em>significantly</em> modular split of the network. For that:</p>
+<ol class="steps">
+  <li>Compute $Q(\tau)$ with \eqref{eq:Q}, using the theme labels as the partition.</li>
+  <li>Draw $B = 10{,}000$ random relabellings $\pi_b$. Each keeps four groups of 15.</li>
+  <li>Compute $Q(\pi_b)$ for each.</li>
+</ol>
+\[
+p_{\text{perm}} = \frac{1 + \#\{\, b : Q(\pi_b) \ge Q(\tau) \,\}}{1 + B}.
+\]
+
+<h3>6.6 Theme block matrix</h3>
+<p>This is the mean absolute edge weight within and between themes:</p>
+\[
+\bar W_{ab} = \frac{1}{N_{ab}}\sum_{\substack{j\in\tau^{-1}(a),\ k\in\tau^{-1}(b)\\ j\lt k \text{ if } a=b}} |\hat\omega_{jk}|,\qquad
+N_{aa} = \tbinom{15}{2} = 105,\quad N_{ab} = 15^2 = 225 .
+\]
+<p>A strong diagonal means the themes are internally coherent. Large off-diagonal cells show which themes are linked in students' minds.</p>
+</section>
+
+<!-- §7 -->
+<section id="s7">
+<h2><span class="n">§7</span>Robustness</h2>
+<p>With $n = 91$ and $p = 60$, we must show which results are stable. Following Epskamp et al. (2018), there are three checks, plus a sensitivity grid.</p>
+
+<h3>7.1 Edge accuracy: nonparametric bootstrap</h3>
+<p>For $b = 1,\dots,B$ with $B = 1000$:</p>
+<ol class="steps">
+  <li>Resample $n$ rows with replacement to get $X^{(b)}$. Missing entries come along with their rows.</li>
+  <li>Rerun the full pipeline (§3 → §4, including the EBIC selection) to get $\hat\Omega^{(b)}$.</li>
+</ol>
+<p>Then report, per edge:</p>
+\[
+\mathrm{CI}_{jk} = \big[\,q_{0.025}(\hat\omega^{(b)}_{jk}),\ q_{0.975}(\hat\omega^{(b)}_{jk})\,\big],\qquad
+\pi_{jk} = \frac{1}{B}\sum_b \one\big[\hat\omega^{(b)}_{jk}\neq 0\big].
+\]
+<p>$\pi_{jk}$ is how often the edge is selected. The lasso shrinks estimates toward zero, so these intervals describe sampling variability. They are not valid confidence intervals in the classical coverage sense.</p>
+
+<h3>7.2 Edge difference test</h3>
+<p>To claim "edge A is stronger than edge B", check whether the bootstrap interval of $\hat\omega^{(b)}_A - \hat\omega^{(b)}_B$ excludes zero. The same test works for node strength.</p>
+
+<h3>7.3 Centrality stability: case-dropping bootstrap</h3>
+<p>For drop fractions $f \in F = \{0.05, 0.10, \dots, 0.75\}$ and $b = 1,\dots,B$:</p>
+<ol class="steps">
+  <li>Sample $\lfloor(1-f)\,n\rfloor$ rows without replacement.</li>
+  <li>Re-estimate the network and compute a centrality vector $\mathbf c^{(b,f)}\in\R^{p}$.</li>
+  <li>Correlate it with the full-sample vector: $r_{b,f} = \operatorname{corr}(\mathbf c^{(b,f)}, \mathbf c)$.</li>
+</ol>
+<p>The correlation-stability coefficient is</p>
+\begin{equation}
+\mathrm{CS}(0.7) = \max\Big\{\, f\in F :\ \frac{1}{B}\sum_b \one[r_{b,f} \ge 0.7] \ge 0.95 \,\Big\}.
+\end{equation}
+<p>Rule of thumb: CS ≥ 0.25 is the minimum for interpreting a centrality ranking, and CS ≥ 0.5 is preferred.</p>
+<p>We don't know yet where our data will land. With $n = 91$, closeness and betweenness failing the 0.25 cut would not be surprising.</p>
+
+<h3>7.4 Sensitivity grid</h3>
+<p>Rerun the main results under each alternative choice, one at a time:</p>
+<div class="tbl"><table>
+  <thead><tr><th>Axis</th><th>Primary</th><th>Alternatives</th></tr></thead>
+  <tbody>
+    <tr><td>Correlation</td><td>Spearman + sin transform</td><td>Polychoric on $\kappa$-merged data</td></tr>
+    <tr><td>Missing data</td><td>Pairwise, $n=91$</td><td>Listwise, $n=68$</td></tr>
+    <tr><td>EBIC $\gamma$</td><td>0.5</td><td>0, 0.25</td></tr>
+    <tr><td>$n$ in EBIC</td><td>85 (median $n_{jk}$)</td><td>81 (min)</td></tr>
+    <tr><td>Communities</td><td>Walktrap</td><td>Louvain, $\gamma_r \in \{0.8, 1.2\}$</td></tr>
+  </tbody>
+</table></div>
+<p>For each run, record: $|E|$, the top-5 strength items, NMI with the themes, and the Jaccard overlap of the edge set with the primary run.</p>
+<p>A result that survives every row is one we can state with confidence.</p>
+</section>
+
+<!-- §8 -->
+<section id="s8">
+<h2><span class="n">§8</span>Optional extension: Response Item Network (ResIN)</h2>
+<p>The item network compresses each item into one node. That hides whether the few people who disagree do so consistently across items. ResIN (Lüders, Carpentras &amp; Quayle, 2024) splits each item into its answer options.</p>
+
+<h3>Construction</h3>
+<p>Each node is an item–answer pair. Using the $\kappa$-merged scale, that gives at most $4\times 60 = 240$ nodes:</p>
+\[
+V_{\text{ResIN}} = \{(j,c) : c \text{ observed for item } j\},\qquad
+D_{i,(j,c)} = \one[\,x_{ij} = c\,].
+\]
+<p>The edge weight is the $\varphi$ coefficient between two indicator columns, computed on respondents observed for both items:</p>
+\[
+\varphi_{(j,c),(k,d)} = \frac{n_{11}n_{00} - n_{10}n_{01}}{\sqrt{n_{1\cdot}\,n_{0\cdot}\,n_{\cdot1}\,n_{\cdot0}}} .
+\]
+<p>Two rules apply:</p>
+<ul>
+  <li>Pairs from the same item ($j = k$) get no edge. Their answers are mutually exclusive, so the correlation is negative by construction.</li>
+  <li>Only positive weights are kept.</li>
+</ul>
+<p>Lay out with a force-directed algorithm. The main axis of the layout then orders answer options from one attitude pole to the other.</p>
+<p><em>Before implementing:</em> check the exact edge definition and filtering in Lüders et al. against this sketch.</p>
+
+<h3>What it adds here</h3>
+<p>It shows whether "Disagree on <span class="id t-T">T01</span>", "Disagree on <span class="id t-T">T05</span>" and "Agree on <span class="id t-T">T12</span>" form a coherent AI-sceptic cluster.</p>
+<p>In the item network, that minority is outvoted by the 79% who agree.</p>
+</section>
+
+<!-- §9 -->
+<section id="s9">
+<h2><span class="n">§9</span>Figures and where they go in the report</h2>
+<div class="tbl"><table>
+  <thead><tr><th>Report section</th><th>Content from this spec</th></tr></thead>
+  <tbody>
+    <tr><td>Dataset Documentation</td><td>§2 encoding, missingness, descriptor table · stacked-bar plot of the answer distribution for each item, grouped by theme</td></tr>
+    <tr><td>Pipeline Followed</td><td>§3 estimator + §4 GGM / EBIC, as a numbered step list with the key equations</td></tr>
+    <tr><td>Analysis &amp; Visualizations</td><td>Network plot (Fruchterman–Reingold on $|\hat\omega|$; node colour = theme; edge colour = sign; width ∝ $|\hat\omega|$; ring = $R^2_j$) · centrality z-score plot · theme block heatmap $\bar W$ · community × theme table · bootstrap edge CIs · case-dropping curves</td></tr>
+    <tr><td>Results &amp; Discussion</td><td>Hubs, bridges, NMI/ARI with $p_{\text{perm}}$, GGM vs. marginal comparison, consensus set, stability caveats</td></tr>
+  </tbody>
+</table></div>
+</section>
+
+<!-- §10 -->
+<section id="s10">
+<h2><span class="n">§10</span>Open decisions</h2>
+<p>These need a team call before we start coding. Each has a recommendation.</p>
+<div class="tbl"><table>
+  <thead><tr><th>#</th><th>Decision</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td>D1</td><td>Correlation estimator</td><td>Spearman + sin transform; polychoric as sensitivity check</td></tr>
+    <tr><td>D2</td><td>Missing data</td><td>Pairwise-complete; listwise ($n=68$) as sensitivity check</td></tr>
+    <tr><td>D3</td><td>EBIC $\gamma$</td><td>0.5; also report 0 and 0.25</td></tr>
+    <tr><td>D4</td><td>Community algorithm</td><td>Walktrap; Louvain as a check</td></tr>
+    <tr><td>D5</td><td>Negative edges when clustering</td><td>Positive part $A^+$ only</td></tr>
+    <tr><td>D6</td><td>Low-variance items</td><td>Keep in the network; report separately as the consensus set</td></tr>
+    <tr><td>D7</td><td>Language</td><td>Python (numpy, scipy, scikit-learn, networkx); R is not installed</td></tr>
+    <tr><td>D8</td><td>ResIN extension</td><td>Do it if the core pipeline is done by ~17 Sep</td></tr>
+  </tbody>
+</table></div>
+</section>
+
+<hr>
+<section id="refs">
+<h2><span class="n">—</span>References</h2>
+<ol class="refs">
+  <li>Benjamini &amp; Hochberg (1995). Controlling the false discovery rate. <em>JRSS-B</em> 57(1), 289–300.</li>
+  <li>Blondel, Guillaume, Lambiotte &amp; Lefebvre (2008). Fast unfolding of communities in large networks. <em>J. Stat. Mech.</em> P10008.</li>
+  <li>Boutyline &amp; Vaisey (2017). Belief network analysis. <em>American Journal of Sociology</em> 122(5), 1371–1447.</li>
+  <li>Bringmann et al. (2019). What do centrality measures measure in psychological networks? <em>J. Abnormal Psychology</em> 128(8), 892–903.</li>
+  <li>Epskamp, Borsboom &amp; Fried (2018). Estimating psychological networks and their accuracy: a tutorial paper. <em>Behavior Research Methods</em> 50, 195–212.</li>
+  <li>Epskamp &amp; Fried (2018). A tutorial on regularized partial correlation networks. <em>Psychological Methods</em> 23(4), 617–634.</li>
+  <li>Foygel &amp; Drton (2010). Extended Bayesian information criteria for Gaussian graphical models. <em>NeurIPS</em> 23.</li>
+  <li>Friedman, Hastie &amp; Tibshirani (2008). Sparse inverse covariance estimation with the graphical lasso. <em>Biostatistics</em> 9(3), 432–441.</li>
+  <li>Golino &amp; Epskamp (2017). Exploratory graph analysis. <em>PLOS ONE</em> 12(6), e0174035.</li>
+  <li>Haslbeck &amp; Waldorp (2018). How well do network models predict observations? <em>Behavior Research Methods</em> 50, 853–861.</li>
+  <li>Higham (2002). Computing the nearest correlation matrix. <em>IMA J. Numerical Analysis</em> 22(3), 329–343.</li>
+  <li>Hubert &amp; Arabie (1985). Comparing partitions. <em>Journal of Classification</em> 2, 193–218.</li>
+  <li>Jones, Ma &amp; McNally (2021). Bridge centrality. <em>Multivariate Behavioral Research</em> 56(2), 353–367.</li>
+  <li>Liu, Han, Yuan, Lafferty &amp; Wasserman (2012). High-dimensional semiparametric Gaussian copula graphical models. <em>Annals of Statistics</em> 40(4), 2293–2326.</li>
+  <li>Lüders, Carpentras &amp; Quayle (2024). Response Item Network (ResIN). <em>Humanities and Social Sciences Communications</em> 11, 599. (Citation taken from the earlier research summary; check the title before citing.)</li>
+  <li>Pons &amp; Latapy (2006). Computing communities in large networks using random walks. <em>J. Graph Algorithms and Applications</em> 10(2), 191–218.</li>
+</ol>
+</section>
+</main>
+</div>
