@@ -1,10 +1,10 @@
-"""Step 04: turn weight matrices into networkx graphs, plus the baseline marginal graph."""
+"""Step 03: turn a correlation (or partial-correlation) matrix into a networkx graph."""
 import networkx as nx
 import numpy as np
 import pandas as pd
 from scipy import stats
 
-from bn import config
+from lib import config
 
 
 def _add_item_nodes(G: nx.Graph, items: pd.DataFrame) -> None:
@@ -58,15 +58,28 @@ def benjamini_hochberg(pvals: np.ndarray, q: float) -> np.ndarray:
     return reject
 
 
-def marginal_graph(R: pd.DataFrame, n_pairwise: pd.DataFrame, items: pd.DataFrame,
-                   q: float = config.FDR_Q) -> nx.Graph:
-    """Baseline: edge = correlation significant after BH correction; weight = r_jk."""
+def correlation_graph(R: pd.DataFrame, n_pairwise: pd.DataFrame, items: pd.DataFrame,
+                      rule: str = config.EDGE_RULE,
+                      q: float = config.FDR_Q,
+                      threshold: float = config.R_THRESHOLD) -> nx.Graph:
+    """Correlation graph: nodes = items, edge weight = r_jk.
+
+    rule="fdr":       keep r_jk whose t-test is significant after Benjamini-Hochberg at level q.
+    rule="threshold": keep |r_jk| >= threshold.
+    """
     p = len(R)
     iu = np.triu_indices(p, 1)
-    reject = benjamini_hochberg(correlation_pvalues(R, n_pairwise)[iu], q)
+    r = R.to_numpy()[iu]
+
+    if rule == "fdr":
+        keep = benjamini_hochberg(correlation_pvalues(R, n_pairwise)[iu], q)
+    elif rule == "threshold":
+        keep = np.abs(r) >= threshold
+    else:
+        raise ValueError(f"Unknown edge rule: {rule}")
 
     W = np.zeros((p, p))
-    W[iu[0][reject], iu[1][reject]] = R.to_numpy()[iu][reject]
+    W[iu[0][keep], iu[1][keep]] = r[keep]
     W = W + W.T
     return graph_from_weights(pd.DataFrame(W, index=R.index, columns=R.columns), items)
 

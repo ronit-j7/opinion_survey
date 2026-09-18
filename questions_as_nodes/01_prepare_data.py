@@ -5,9 +5,9 @@ Out: outputs/01_responses.csv   respondents x items, 1-5, blank = missing
      outputs/01_items.csv       code, theme, statement text, response counts
      outputs/01_info.json       row counts, missingness
 """
-from bn import config
-from bn.data import load_responses
-from bn.files import save_json
+from lib import config
+from lib.data import load_responses
+from lib.files import save_json
 
 
 def main() -> None:

@@ -1,0 +1,61 @@
+code,theme,theme_name,text,n_responses,n_no_comment
+T01,T,Technology,Artificial Intelligence will improve society more than it will create problems.,91,0
+T02,T,Technology,Generative AI tools should be allowed as learning aids in higher education.,91,0
+T03,T,Technology,Students should disclose the use of AI in assignments and reports.,89,2
+T04,T,Technology,Every engineering student should receive formal education in AI.,91,0
+T05,T,Technology,Artificial Intelligence will significantly accelerate scientific discovery.,91,0
+T06,T,Technology,Most repetitive jobs will eventually be replaced by intelligent automation.,91,0
+T07,T,Technology,Robots should replace humans in hazardous occupations whenever possible.,91,0
+T08,T,Technology,AI-assisted diagnosis should become routine in healthcare.,90,1
+T09,T,Technology,Autonomous vehicles will ultimately make transportation safer.,90,1
+T10,T,Technology,Protection of personal data is more important than technological convenience.,91,0
+T11,T,Technology,Technology companies should explain how recommendation algorithms work.,89,2
+T12,T,Technology,Governments should introduce stricter regulations for Artificial Intelligence.,90,1
+T13,T,Technology,Cybersecurity deserves greater investment than the development of new digital technologies.,89,2
+T14,T,Technology,Social media algorithms contribute to opinion polarization.,90,1
+T15,T,Technology,Society will increasingly depend on AI-assisted decision making.,90,1
+E01,E,Education,Project-based learning develops deeper understanding than examination-oriented learning.,87,0
+E02,E,Education,Traditional written examinations accurately measure a student's knowledge.,87,0
+E03,E,Education,Class attendance should be compulsory for all courses.,87,0
+E04,E,Education,High-quality online learning can effectively complement classroom teaching.,87,0
+E05,E,Education,Students should be encouraged to take courses outside their primary discipline.,85,2
+E06,E,Education,Every undergraduate student should participate in at least one research project.,86,1
+E07,E,Education,"Publishing research before graduation should be encouraged, but not mandatory.",87,0
+E08,E,Education,Maintaining academic honesty is more important than obtaining high grades.,85,2
+E09,E,Education,Collaborative learning is generally more effective than individual learning.,86,1
+E10,E,Education,Universities should prioritize innovation and problem-solving over rote learning.,87,0
+E11,E,Education,University curricula should be updated more frequently to match emerging technologies.,87,0
+E12,E,Education,Artificial intelligence should be integrated into teaching and personalized learning.,87,0
+E13,E,Education,Universities should invest more resources in research than in expanding infrastructure.,85,2
+E14,E,Education,Strong collaborations between universities and industry improve student education.,87,0
+E15,E,Education,Continuous learning and skill development are essential throughout one's career.,87,0
+S01,S,Society,Every individual has a responsibility to contribute positively to society.,86,1
+S02,S,Society,Universities should encourage students to participate in community service activities.,87,0
+S03,S,Society,New technologies should be evaluated for their societal impact before widespread deployment.,87,0
+S04,S,Society,Technology companies should be accountable for unethical use of their platforms.,87,0
+S05,S,Society,Individuals should have greater control over how their personal data are collected and used.,87,0
+S06,S,Society,"Combating online misinformation requires shared responsibility among users, platforms, and governments.",87,0
+S07,S,Society,Equal opportunities should be prioritized regardless of a person's background.,86,1
+S08,S,Society,Diverse teams generally make better decisions than homogeneous teams.,86,1
+S09,S,Society,Universities should promote an inclusive environment where different viewpoints can be discussed respectfully.,85,2
+S10,S,Society,Scientific evidence should play an important role in public policy decisions.,84,3
+S11,S,Society,People should be free to express differing opinions as long as they do not promote harm or discrimination.,87,0
+S12,S,Society,Young people should actively participate in addressing societal challenges.,86,1
+S13,S,Society,Critical evaluation of online information should be taught as a core educational skill.,87,0
+S14,S,Society,Leaders should prioritize ethical decision-making even when it reduces short-term gains.,84,3
+S15,S,Society,Building public trust is essential for responsible adoption of emerging technologies.,86,1
+V01,V,Environment,Climate change requires immediate global action.,85,1
+V02,V,Environment,Governments should prioritize investment in renewable energy over fossil fuels.,85,1
+V03,V,Environment,Individuals should actively reduce their personal energy consumption.,86,0
+V04,V,Environment,Public transportation and non-motorized transport should be promoted even if they require additional public investment.,86,0
+V05,V,Environment,Single-use plastics should be significantly restricted.,86,0
+V06,V,Environment,"Water conservation should be a priority in households, institutions, and industries.",84,1
+V07,V,Environment,Protecting biodiversity is essential for long-term human well-being.,85,0
+V08,V,Environment,Universities should adopt environmentally sustainable campus practices even if implementation costs increase.,85,0
+V09,V,Environment,"Products should be designed to encourage reuse, repair, and recycling.",85,0
+V10,V,Environment,Consumers should consider environmental impact when purchasing products.,85,0
+V11,V,Environment,Technological innovation is essential for addressing environmental challenges.,84,1
+V12,V,Environment,Environmental sustainability should be integrated into higher education curricula.,84,1
+V13,V,Environment,Companies should be held accountable for the environmental impacts of their activities.,85,0
+V14,V,Environment,International cooperation is necessary to effectively address environmental challenges.,85,0
+V15,V,Environment,Current generations have a responsibility to protect natural resources for future generations.,85,0

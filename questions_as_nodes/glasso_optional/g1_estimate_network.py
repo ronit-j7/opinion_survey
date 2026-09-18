@@ -1,21 +1,27 @@
-"""Step 03 - graphical lasso with EBIC model selection -> partial correlation matrix.
+"""Optional G1 - graphical lasso with EBIC model selection -> partial correlation matrix.
+
+Run from the questions_as_nodes folder after steps 01-02:  python glasso_optional/g1_estimate_network.py
 
 In:  outputs/02_R.csv, outputs/02_pairwise_n.csv
-Out: outputs/03_ebic_path.csv       lambda, n_edges, loglik, ebic, converged, failed
-     outputs/03_precision.csv       selected Theta
-     outputs/03_partial_corr.csv    Omega (edge weights)
-     outputs/03_selection.json      chosen lambda, n used in EBIC, gamma, warnings
-     figures/03_ebic_curve.png
+Out: outputs/g1_ebic_path.csv       lambda, n_edges, loglik, ebic, converged, failed
+     outputs/g1_precision.csv       selected Theta
+     outputs/g1_partial_corr.csv    Omega (edge weights)
+     outputs/g1_selection.json      chosen lambda, n used in EBIC, gamma, warnings
+     figures/g1_ebic_curve.png
 """
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # make lib/ importable
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from bn import config
-from bn.files import read_matrix, save_json, save_matrix
-from bn.network import partial_correlations, select_by_ebic
+from lib import config
+from lib.files import read_matrix, save_json, save_matrix
+from lib.network import partial_correlations, select_by_ebic
 
 
 def plot_ebic_path(path: pd.DataFrame, lam: float, out) -> None:
@@ -47,11 +53,11 @@ def main() -> None:
     fit = select_by_ebic(R.to_numpy(), n=n_ebic)
     omega = partial_correlations(fit.theta)
 
-    fit.path.to_csv(config.OUTPUTS / "03_ebic_path.csv", index=False, float_format="%.10g")
+    fit.path.to_csv(config.OUTPUTS / "g1_ebic_path.csv", index=False, float_format="%.10g")
     save_matrix(pd.DataFrame(fit.theta, index=R.index, columns=R.columns),
-                config.OUTPUTS / "03_precision.csv")
+                config.OUTPUTS / "g1_precision.csv")
     save_matrix(pd.DataFrame(omega, index=R.index, columns=R.columns),
-                config.OUTPUTS / "03_partial_corr.csv")
+                config.OUTPUTS / "g1_partial_corr.csv")
 
     selected = fit.path.iloc[fit.index]
     at_boundary = fit.index in (0, len(fit.path) - 1)
@@ -68,8 +74,8 @@ def main() -> None:
         "n_failed_fits": int(fit.path["failed"].sum()),
         "n_unconverged_fits": int((~fit.path["converged"] & ~fit.path["failed"]).sum()),
     }
-    save_json(selection, config.OUTPUTS / "03_selection.json")
-    plot_ebic_path(fit.path, fit.lam, config.FIGURES / "03_ebic_curve.png")
+    save_json(selection, config.OUTPUTS / "g1_selection.json")
+    plot_ebic_path(fit.path, fit.lam, config.FIGURES / "g1_ebic_curve.png")
 
     print(f"n used in EBIC: {n_ebic:g}, gamma: {fit.gamma}")
     print(f"Selected lambda: {fit.lam:.5f} (grid index {fit.index} of {len(fit.path)})")

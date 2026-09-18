@@ -1,0 +1,11 @@
+{
+  "method": "pearson",
+  "n_items": 60,
+  "pairwise_n_min": 81,
+  "pairwise_n_median": 85.0,
+  "pairwise_n_max": 91,
+  "n_undefined_pairs": 0,
+  "min_eigenvalue": -0.024887834131592356,
+  "mean_abs_r": 0.1799109233920419,
+  "share_negative_r": 0.1711864406779661
+}

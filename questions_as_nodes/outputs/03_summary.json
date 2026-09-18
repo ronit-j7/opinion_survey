@@ -1,0 +1,86 @@
+{
+  "corr_method": "pearson",
+  "edge_rule": "threshold",
+  "r_threshold": 0.3,
+  "n_nodes": 60,
+  "n_edges": 316,
+  "density": 0.17853107344632768,
+  "n_positive": 312,
+  "n_negative": 4,
+  "share_negative": 0.012658227848101266,
+  "mean_abs_weight": 0.38204638882468356,
+  "within_theme_edges": 136,
+  "cross_theme_edges": 180,
+  "edges_by_theme_pair": {
+    "E-E": 22,
+    "E-S": 32,
+    "E-T": 12,
+    "E-V": 31,
+    "S-S": 36,
+    "S-T": 18,
+    "S-V": 73,
+    "T-T": 8,
+    "T-V": 14,
+    "V-V": 70
+  },
+  "n_components": 5,
+  "largest_component_size": 56,
+  "isolated_nodes": [
+    "E13",
+    "T08",
+    "T09",
+    "T15"
+  ],
+  "strongest_edges": [
+    [
+      "V07",
+      "V08",
+      0.6296
+    ],
+    [
+      "E14",
+      "E15",
+      0.6042
+    ],
+    [
+      "V05",
+      "V07",
+      0.6011
+    ],
+    [
+      "V08",
+      "V10",
+      0.5994
+    ],
+    [
+      "V10",
+      "V12",
+      0.5791
+    ],
+    [
+      "S14",
+      "V13",
+      0.555
+    ],
+    [
+      "S01",
+      "S03",
+      0.5457
+    ],
+    [
+      "V09",
+      "V14",
+      0.5399
+    ],
+    [
+      "T02",
+      "E12",
+      0.5313
+    ],
+    [
+      "E11",
+      "V07",
+      0.5312
+    ]
+  ]
+}

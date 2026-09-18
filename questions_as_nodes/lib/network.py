@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.covariance import graphical_lasso
 from sklearn.exceptions import ConvergenceWarning
 
-from bn import config
+from lib import config
 
 
 @dataclass
