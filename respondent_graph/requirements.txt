@@ -1,0 +1,13 @@
+numpy>=2.0
+pandas>=3.0
+scipy>=1.14
+scikit-learn>=1.5
+networkx>=3.2
+matplotlib>=3.8
+seaborn>=0.13
+plotly>=5.24
+pyarrow>=17
+POT>=0.9
+ripser>=0.6
+persim>=0.3
+gudhi>=3.9
