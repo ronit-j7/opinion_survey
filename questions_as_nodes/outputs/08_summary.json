@@ -1,0 +1,13 @@
+{
+  "n_resamples": 1000,
+  "edge_rule": "threshold",
+  "n_edges_observed": 316,
+  "edges_in_over_90pct": 50,
+  "edges_in_over_75pct": 137,
+  "edges_in_under_50pct": 8,
+  "median_inclusion_of_our_edges": 0.7104999999999999,
+  "pairs_outside_graph_over_50pct": 11,
+  "strength_rank_corr_mean": 0.8157627852257309,
+  "strength_rank_corr_p05": 0.6420564185918908,
+  "n_failed_resamples": 0
+}

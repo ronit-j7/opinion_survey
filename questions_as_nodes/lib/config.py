@@ -49,7 +49,17 @@ GLASSO_MAX_ITER = 500
 GLASSO_TOL = 1e-4
 ZERO_TOL = 1e-8         # |value| below this counts as no edge
 
+# --- Steps 05-08: analysis ----------------------------------------------------
+CONSENSUS_SHARE = 0.85   # >= this share on one side of the scale -> "consensus" item
+SPLIT_MIN_SHARE = 0.25   # at least this share agreeing AND disagreeing -> "split" item
+LOUVAIN_SEEDS = 100      # Louvain is randomised; keep the best partition of this many runs
+PERMUTATIONS = 10000     # random theme relabellings for the modularity test
+BOOTSTRAP_B = 1000       # resamples of the respondents in step 08
+
 # --- Plotting -----------------------------------------------------------------
+LIKERT_COLORS = ["#B2182B", "#EF8A62", "#CFCFCF", "#7FADD4", "#2166AC"]  # SD, D, N, A, SA
+COMMUNITY_COLORS = ["#4C72B0", "#DD8452", "#55A868", "#C44E52", "#8172B3",
+                    "#937860", "#DA8BC3", "#8C8C8C", "#CCB974", "#64B5CD"]
 SEED = 42
 POSITIVE_EDGE_COLOR = "#2F6DB5"
 NEGATIVE_EDGE_COLOR = "#C4452F"

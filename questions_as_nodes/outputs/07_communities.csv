@@ -1,0 +1,61 @@
+code,theme,community,text
+T08,T,0,AI-assisted diagnosis should become routine in healthcare.
+T09,T,1,Autonomous vehicles will ultimately make transportation safer.
+T15,T,2,Society will increasingly depend on AI-assisted decision making.
+E02,E,3,Traditional written examinations accurately measure a student's knowledge.
+E03,E,4,Class attendance should be compulsory for all courses.
+E01,E,5,Project-based learning develops deeper understanding than examination-oriented learning.
+E04,E,5,High-quality online learning can effectively complement classroom teaching.
+E09,E,5,Collaborative learning is generally more effective than individual learning.
+S06,S,5,"Combating online misinformation requires shared responsibility among users, platforms, and governments."
+S07,S,5,Equal opportunities should be prioritized regardless of a person's background.
+T05,T,5,Artificial Intelligence will significantly accelerate scientific discovery.
+T07,T,5,Robots should replace humans in hazardous occupations whenever possible.
+T14,T,5,Social media algorithms contribute to opinion polarization.
+V01,V,5,Climate change requires immediate global action.
+V02,V,5,Governments should prioritize investment in renewable energy over fossil fuels.
+V11,V,5,Technological innovation is essential for addressing environmental challenges.
+V13,V,5,Companies should be held accountable for the environmental impacts of their activities.
+E13,E,6,Universities should invest more resources in research than in expanding infrastructure.
+E07,E,7,"Publishing research before graduation should be encouraged, but not mandatory."
+E08,E,7,Maintaining academic honesty is more important than obtaining high grades.
+E10,E,7,Universities should prioritize innovation and problem-solving over rote learning.
+E11,E,7,University curricula should be updated more frequently to match emerging technologies.
+E12,E,7,Artificial intelligence should be integrated into teaching and personalized learning.
+E14,E,7,Strong collaborations between universities and industry improve student education.
+E15,E,7,Continuous learning and skill development are essential throughout one's career.
+S11,S,7,People should be free to express differing opinions as long as they do not promote harm or discrimination.
+T01,T,7,Artificial Intelligence will improve society more than it will create problems.
+T02,T,7,Generative AI tools should be allowed as learning aids in higher education.
+T03,T,7,Students should disclose the use of AI in assignments and reports.
+T04,T,7,Every engineering student should receive formal education in AI.
+T06,T,7,Most repetitive jobs will eventually be replaced by intelligent automation.
+V09,V,7,"Products should be designed to encourage reuse, repair, and recycling."
+V14,V,7,International cooperation is necessary to effectively address environmental challenges.
+S01,S,8,Every individual has a responsibility to contribute positively to society.
+S02,S,8,Universities should encourage students to participate in community service activities.
+S03,S,8,New technologies should be evaluated for their societal impact before widespread deployment.
+S04,S,8,Technology companies should be accountable for unethical use of their platforms.
+S05,S,8,Individuals should have greater control over how their personal data are collected and used.
+S08,S,8,Diverse teams generally make better decisions than homogeneous teams.
+S09,S,8,Universities should promote an inclusive environment where different viewpoints can be discussed respectfully.
+S12,S,8,Young people should actively participate in addressing societal challenges.
+S13,S,8,Critical evaluation of online information should be taught as a core educational skill.
+S14,S,8,Leaders should prioritize ethical decision-making even when it reduces short-term gains.
+S15,S,8,Building public trust is essential for responsible adoption of emerging technologies.
+T10,T,8,Protection of personal data is more important than technological convenience.
+T11,T,8,Technology companies should explain how recommendation algorithms work.
+T12,T,8,Governments should introduce stricter regulations for Artificial Intelligence.
+V03,V,8,Individuals should actively reduce their personal energy consumption.
+V10,V,8,Consumers should consider environmental impact when purchasing products.
+E05,E,9,Students should be encouraged to take courses outside their primary discipline.
+E06,E,9,Every undergraduate student should participate in at least one research project.
+S10,S,9,Scientific evidence should play an important role in public policy decisions.
+T13,T,9,Cybersecurity deserves greater investment than the development of new digital technologies.
+V04,V,9,Public transportation and non-motorized transport should be promoted even if they require additional public investment.
+V05,V,9,Single-use plastics should be significantly restricted.
+V06,V,9,"Water conservation should be a priority in households, institutions, and industries."
+V07,V,9,Protecting biodiversity is essential for long-term human well-being.
+V08,V,9,Universities should adopt environmentally sustainable campus practices even if implementation costs increase.
+V12,V,9,Environmental sustainability should be integrated into higher education curricula.
+V15,V,9,Current generations have a responsibility to protect natural resources for future generations.

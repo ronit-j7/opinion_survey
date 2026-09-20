@@ -1,0 +1,61 @@
+code,theme,text,n_answers,mean,sd,share_agree,share_neutral,share_disagree,label,degree
+T01,T,Artificial Intelligence will improve society more than it will create problems.,91,3.637,0.9834,0.6813,0.1978,0.1209,mixed,1
+T02,T,Generative AI tools should be allowed as learning aids in higher education.,91,4,0.9888,0.7912,0.1209,0.08791,mixed,2
+T03,T,Students should disclose the use of AI in assignments and reports.,89,4.011,0.846,0.7528,0.2135,0.03371,mixed,6
+T04,T,Every engineering student should receive formal education in AI.,91,4.209,0.8369,0.8132,0.1648,0.02198,mixed,6
+T05,T,Artificial Intelligence will significantly accelerate scientific discovery.,91,4.187,0.9057,0.8132,0.1319,0.05495,mixed,2
+T06,T,Most repetitive jobs will eventually be replaced by intelligent automation.,91,4.209,0.8884,0.8681,0.07692,0.05495,consensus,8
+T07,T,Robots should replace humans in hazardous occupations whenever possible.,91,4.209,1.038,0.8242,0.08791,0.08791,mixed,1
+T08,T,AI-assisted diagnosis should become routine in healthcare.,90,3.078,1.094,0.3778,0.3444,0.2778,split,0
+T09,T,Autonomous vehicles will ultimately make transportation safer.,90,3.278,0.9602,0.4222,0.3778,0.2,mixed,0
+T10,T,Protection of personal data is more important than technological convenience.,91,4.154,0.8809,0.8022,0.1538,0.04396,mixed,3
+T11,T,Technology companies should explain how recommendation algorithms work.,89,4.157,0.8777,0.8202,0.1124,0.06742,mixed,8
+T12,T,Governments should introduce stricter regulations for Artificial Intelligence.,90,4.022,1.005,0.7556,0.1556,0.08889,mixed,13
+T13,T,Cybersecurity deserves greater investment than the development of new digital technologies.,89,3.978,0.9043,0.6517,0.3146,0.03371,mixed,5
+T14,T,Social media algorithms contribute to opinion polarization.,90,4.5,0.768,0.9111,0.06667,0.02222,consensus,5
+T15,T,Society will increasingly depend on AI-assisted decision making.,90,4.167,0.7825,0.8111,0.1667,0.02222,mixed,0
+E01,E,Project-based learning develops deeper understanding than examination-oriented learning.,87,4.322,0.9085,0.8391,0.09195,0.06897,mixed,6
+E02,E,Traditional written examinations accurately measure a student's knowledge.,87,2.839,1.119,0.3218,0.2529,0.4253,split,1
+E03,E,Class attendance should be compulsory for all courses.,87,2.057,1.124,0.1264,0.1724,0.7011,mixed,2
+E04,E,High-quality online learning can effectively complement classroom teaching.,87,3.437,1.168,0.5402,0.1839,0.2759,split,2
+E05,E,Students should be encouraged to take courses outside their primary discipline.,85,4.094,0.9079,0.8118,0.1176,0.07059,mixed,5
+E06,E,Every undergraduate student should participate in at least one research project.,86,3.872,0.9554,0.6977,0.2093,0.09302,mixed,2
+E07,E,"Publishing research before graduation should be encouraged, but not mandatory.",87,4.299,0.7489,0.8506,0.1379,0.01149,consensus,14
+E08,E,Maintaining academic honesty is more important than obtaining high grades.,85,4.259,0.8041,0.8235,0.1529,0.02353,mixed,5
+E09,E,Collaborative learning is generally more effective than individual learning.,86,3.791,1.042,0.6163,0.2791,0.1047,mixed,2
+E10,E,Universities should prioritize innovation and problem-solving over rote learning.,87,4.529,0.6962,0.9425,0.04598,0.01149,consensus,22
+E11,E,University curricula should be updated more frequently to match emerging technologies.,87,4.621,0.6332,0.9425,0.04598,0.01149,consensus,12
+E12,E,Artificial intelligence should be integrated into teaching and personalized learning.,87,3.931,1.032,0.7356,0.1494,0.1149,mixed,15
+E13,E,Universities should invest more resources in research than in expanding infrastructure.,85,3.341,0.9456,0.3765,0.4941,0.1294,mixed,0
+E14,E,Strong collaborations between universities and industry improve student education.,87,4.529,0.6962,0.931,0.04598,0.02299,consensus,17
+E15,E,Continuous learning and skill development are essential throughout one's career.,87,4.713,0.5037,0.977,0.02299,0,consensus,14
+S01,S,Every individual has a responsibility to contribute positively to society.,86,4.279,0.903,0.8837,0.05814,0.05814,consensus,4
+S02,S,Universities should encourage students to participate in community service activities.,87,3.839,1.055,0.7241,0.1609,0.1149,mixed,11
+S03,S,New technologies should be evaluated for their societal impact before widespread deployment.,87,4.264,0.8688,0.8736,0.06897,0.05747,consensus,5
+S04,S,Technology companies should be accountable for unethical use of their platforms.,87,4.149,0.9945,0.8046,0.1149,0.08046,mixed,12
+S05,S,Individuals should have greater control over how their personal data are collected and used.,87,4.632,0.5929,0.9425,0.05747,0,consensus,4
+S06,S,"Combating online misinformation requires shared responsibility among users, platforms, and governments.",87,4.391,0.8121,0.908,0.06897,0.02299,consensus,22
+S07,S,Equal opportunities should be prioritized regardless of a person's background.,86,4.43,0.7902,0.8837,0.0814,0.03488,consensus,24
+S08,S,Diverse teams generally make better decisions than homogeneous teams.,86,3.919,1.008,0.6628,0.2674,0.06977,mixed,1
+S09,S,Universities should promote an inclusive environment where different viewpoints can be discussed respectfully.,85,4.471,0.5894,0.9529,0.04706,0,consensus,26
+S10,S,Scientific evidence should play an important role in public policy decisions.,84,4.25,0.726,0.8571,0.131,0.0119,consensus,10
+S11,S,People should be free to express differing opinions as long as they do not promote harm or discrimination.,87,4.552,0.6054,0.9655,0.02299,0.01149,consensus,10
+S12,S,Young people should actively participate in addressing societal challenges.,86,4.256,0.7849,0.8605,0.1047,0.03488,consensus,11
+S13,S,Critical evaluation of online information should be taught as a core educational skill.,87,4.264,0.7227,0.8621,0.1264,0.01149,consensus,17
+S14,S,Leaders should prioritize ethical decision-making even when it reduces short-term gains.,84,4.298,0.7409,0.8571,0.131,0.0119,consensus,21
+S15,S,Building public trust is essential for responsible adoption of emerging technologies.,86,4.244,0.8669,0.8605,0.1047,0.03488,consensus,17
+V01,V,Climate change requires immediate global action.,85,4.518,0.6289,0.9294,0.07059,0,consensus,8
+V02,V,Governments should prioritize investment in renewable energy over fossil fuels.,85,4.435,0.7311,0.9176,0.07059,0.01176,consensus,23
+V03,V,Individuals should actively reduce their personal energy consumption.,86,3.965,0.9261,0.7326,0.1977,0.06977,mixed,11
+V04,V,Public transportation and non-motorized transport should be promoted even if they require additional public investment.,86,4.384,0.7222,0.8837,0.1047,0.01163,consensus,14
+V05,V,Single-use plastics should be significantly restricted.,86,4.372,0.7977,0.907,0.05814,0.03488,consensus,15
+V06,V,"Water conservation should be a priority in households, institutions, and industries.",84,4.512,0.591,0.9524,0.04762,0,consensus,9
+V07,V,Protecting biodiversity is essential for long-term human well-being.,85,4.494,0.6835,0.9412,0.03529,0.02353,consensus,25
+V08,V,Universities should adopt environmentally sustainable campus practices even if implementation costs increase.,85,4.294,0.7372,0.8824,0.09412,0.02353,consensus,21
+V09,V,"Products should be designed to encourage reuse, repair, and recycling.",85,4.6,0.7105,0.9412,0.02353,0.03529,consensus,24
+V10,V,Consumers should consider environmental impact when purchasing products.,85,4.035,0.8653,0.7529,0.2118,0.03529,mixed,21
+V11,V,Technological innovation is essential for addressing environmental challenges.,84,4.321,0.697,0.8929,0.09524,0.0119,consensus,11
+V12,V,Environmental sustainability should be integrated into higher education curricula.,84,4.119,0.9236,0.8214,0.119,0.05952,mixed,19
+V13,V,Companies should be held accountable for the environmental impacts of their activities.,85,4.671,0.5646,0.9765,0.01176,0.01176,consensus,18
+V14,V,International cooperation is necessary to effectively address environmental challenges.,85,4.553,0.6456,0.9412,0.04706,0.01176,consensus,21
+V15,V,Current generations have a responsibility to protect natural resources for future generations.,85,4.506,0.6291,0.9529,0.03529,0.01176,consensus,18
