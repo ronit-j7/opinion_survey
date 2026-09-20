@@ -1,0 +1,6 @@
+cutoff,n_edges,n_isolated,top5_by_strength,strength_rank_corr_vs_reference
+0.2,713,0,S14 S09 E10 V10 V09,0.9623
+0.25,486,0,S09 S14 V09 S07 V07,0.976
+0.3,316,4,S09 V09 V07 E10 S07,1
+0.35,187,10,V09 S09 E10 V10 V13,0.9678
+0.4,116,12,E10 V09 V13 S14 V12,0.9275

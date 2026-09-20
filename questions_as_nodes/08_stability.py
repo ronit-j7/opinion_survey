@@ -7,6 +7,7 @@ strength ranking is.
 In:  outputs/01_responses.csv, outputs/03_graph.graphml
 Out: outputs/08_edge_stability.csv    every pair, its inclusion rate, whether it is in our graph
      outputs/08_node_stability.csv    per statement: observed strength and its 95% interval
+     outputs/08_cutoff_sweep.csv  the graph rebuilt at other |r| cutoffs
      outputs/08_summary.json
      figures/08_edge_inclusion.png, figures/08_strength_intervals.png
 """
@@ -15,8 +16,8 @@ import numpy as np
 import pandas as pd
 
 from lib import config
-from lib.analysis import bootstrap_stability
-from lib.files import read_responses, save_json
+from lib.analysis import bootstrap_stability, cutoff_sweep
+from lib.files import read_matrix, read_responses, save_json
 from lib.plot import draw_inclusion, draw_strength_intervals
 
 
@@ -24,6 +25,7 @@ def main() -> None:
     config.ensure_dirs()
     X = read_responses(config.OUTPUTS / "01_responses.csv")
     G = nx.read_graphml(config.OUTPUTS / "03_graph.graphml")
+    items = pd.read_csv(config.OUTPUTS / "01_items.csv")
 
     observed_strength = pd.Series(
         {n: sum(d["abs_weight"] for _, _, d in G.edges(n, data=True)) for n in G})
@@ -56,6 +58,12 @@ def main() -> None:
         "n_failed_resamples": res["n_failed"],
     }
     save_json(summary, config.OUTPUTS / "08_summary.json")
+
+    sweep = cutoff_sweep(read_matrix(config.OUTPUTS / "02_R.csv"),
+                         read_matrix(config.OUTPUTS / "02_pairwise_n.csv"), items)
+    sweep.to_csv(config.OUTPUTS / "08_cutoff_sweep.csv", index=False, float_format="%.4g")
+    print("\nGraph at other cutoffs:")
+    print(sweep.to_string(index=False, float_format="%.3f"))
 
     draw_inclusion(pairs[pairs["in_graph"]],
                    f"Edge stability over {res['B']} resamples",

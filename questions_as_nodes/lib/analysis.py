@@ -138,6 +138,29 @@ def theme_block_matrix(R: pd.DataFrame, items: pd.DataFrame) -> pd.DataFrame:
 
 # --- Step 08: bootstrap stability ---------------------------------------------
 
+def cutoff_sweep(R: pd.DataFrame, n_pairwise: pd.DataFrame, items: pd.DataFrame,
+                 cutoffs=(0.2, 0.25, 0.3, 0.35, 0.4),
+                 reference: float = config.R_THRESHOLD) -> pd.DataFrame:
+    """Rebuild the graph at several |r| cutoffs: does the story change if we move the line?"""
+    from lib.graph import correlation_graph  # imported here to avoid a circular import
+
+    ref_strength = None
+    rows = []
+    for t in sorted(cutoffs, reverse=True):
+        G = correlation_graph(R, n_pairwise, items, rule="threshold", threshold=t)
+        strength = centrality_table(G).set_index("code")["strength"]
+        if t == reference:
+            ref_strength = strength
+        rows.append({"cutoff": t, "n_edges": G.number_of_edges(),
+                     "n_isolated": sum(1 for n in G if G.degree(n) == 0),
+                     "top5_by_strength": " ".join(strength.nlargest(5).index),
+                     "_strength": strength})
+
+    for row in rows:
+        row["strength_rank_corr_vs_reference"] = row.pop("_strength").corr(ref_strength, method="spearman")
+    return pd.DataFrame(rows).sort_values("cutoff").reset_index(drop=True)
+
+
 def _keep_mask(res, rule: str, q: float, threshold: float) -> np.ndarray:
     iu = np.triu_indices(len(res.R), 1)
     if rule == "fdr":
